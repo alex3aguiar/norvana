@@ -39,7 +39,7 @@
 		<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> - FBXLoader<br />
 		Character and animation from <a href="https://www.mixamo.com/" target="_blank" rel="noopener">Mixamo</a>
 	</div>
-	<div id="loader"></div>
+	
 
 	<!-- Import maps polyfill -->
 	<!-- Remove this when import maps will be widely supported -->
@@ -110,6 +110,7 @@
 		function init() {
 			const manager = new THREE.LoadingManager();
 			manager.onProgress = function (item, loaded, total) {
+				console.log((loaded / total * 100) + '%')
 				document.getElementById("info").innerHTML  = (loaded / total * 100) + '%';
 			};
 
