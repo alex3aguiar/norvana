@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>premios norvana</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+
+<body>
+    <table id="demo">
+        <tr>
+            <th>nome do premio</th>
+            <th>ganhador</th>
+            <th>link</th>
+        </tr>
+    </table>
+    <script>
+
+        const premios = [
+            { nomeDoPremio: "Casamento do Ano", ganhador: "Beani" },
+            { nomeDoPremio: "Bora", ganhador: "Alex, Dev" },
+            { nomeDoPremio: "Cagar em mais países", ganhador: "Loren" },
+            { nomeDoPremio: "Rayssa Leal (SK8)", ganhador: "Dev" },
+            { nomeDoPremio: "Contador de Histórias", ganhador: "Loren" },
+            { nomeDoPremio: "Entregador de paçoca", ganhador: "Dev" },
+            { nomeDoPremio: "Casa de gatos", ganhador: "Fefa" },
+            { nomeDoPremio: "Vegano", ganhador: "Fefa" },
+            { nomeDoPremio: "Discurso motivacional no insta", ganhador: "Bere" },
+            { nomeDoPremio: "Aniversario temático", ganhador: "Alex" },
+            { nomeDoPremio: "Melhor Beani", ganhador: "Beani" },
+            { nomeDoPremio: "Melhor cochilo no sofá do beani", ganhador: "Carol" },
+            { nomeDoPremio: "Bodybuilder", ganhador: "Bere" },
+            { nomeDoPremio: "1 2 3 e já", ganhador: "Dev" },
+            { nomeDoPremio: "Atropelador de criança", ganhador: "Dev" },
+            { nomeDoPremio: "Casamento duradouro", ganhador: "Pedro" },
+            { nomeDoPremio: "Pau pra toda obra", ganhador: "Alex" },
+            { nomeDoPremio: "Sombrancelha", ganhador: "Pedro" },
+            { nomeDoPremio: "Kpop", ganhador: "Bere" },
+            { nomeDoPremio: "Venci o capitalismo", ganhador: "PBeani" },
+            { nomeDoPremio: "Melhor nome gringo", ganhador: "Dev (Italian John)" },
+            { nomeDoPremio: "Mãenicure", ganhador: "Elisangela" },
+            { nomeDoPremio: "Lactose", ganhador: "Alan" },
+            { nomeDoPremio: "Cosplay", ganhador: "Beatriz" },
+            { nomeDoPremio: "Já o que", ganhador: "Jaque" },
+        ]
+
+
+
+        let text = "";
+        for (let i = 0; i < premios.length; i++) {
+            text +=`
+        <tr>
+          <td>${premios[i].nomeDoPremio}</td>
+          <td>${premios[i].ganhador}</td>
+          <td><a href="/norvana.html?premio=${i}">click aqui </a></td>
+        </tr>
+  
+  `
+        }
+
+        document.getElementById("demo").innerHTML = text;
+    </script>
+</body>
+
+</html>
