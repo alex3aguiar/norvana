@@ -159,7 +159,7 @@
 			scene.add(grid);
 
 			// model
-			const loader = new FBXLoader();
+			const loader = new FBXLoader(manager);
 			loader.load("https://raw.githubusercontent.com/alex3aguiar/norvana/modelos/modelos/" + premio + '.fbx', function (object) {
 
 				mixer = new THREE.AnimationMixer(object);
