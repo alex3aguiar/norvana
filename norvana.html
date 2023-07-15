@@ -36,9 +36,8 @@
 		}
 	</style>
 	<div id="info">
-		
+		<div id="loader"></div>
 	</div>
-	
 
 	<!-- Import maps polyfill -->
 	<!-- Remove this when import maps will be widely supported -->
@@ -109,12 +108,10 @@
 		function init() {
 			const manager = new THREE.LoadingManager();
 			manager.onProgress = function (item, loaded, total) {
-				console.log((loaded / total * 100) + '%')
 				document.getElementById("info").innerHTML  = (loaded / total * 100) + '%';
 			};
 
 			manager.onLoad = function (item, loaded, total) {
-				console.log('terminou')
 				document.getElementById("info").innerHTML = `
 			
 				<p>${premios[premio - 1].nomeDoPremio}</p>
