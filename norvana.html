@@ -36,8 +36,7 @@
 		}
 	</style>
 	<div id="info">
-		<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> - FBXLoader<br />
-		Character and animation from <a href="https://www.mixamo.com/" target="_blank" rel="noopener">Mixamo</a>
+		
 	</div>
 	
 
@@ -115,6 +114,7 @@
 			};
 
 			manager.onLoad = function (item, loaded, total) {
+				console.log('terminou')
 				document.getElementById("info").innerHTML = `
 			
 				<p>${premios[premio - 1].nomeDoPremio}</p>
