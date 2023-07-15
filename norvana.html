@@ -1,23 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>three.js webgl - FBX loader</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<link type="text/css" rel="stylesheet" href="main.css">
-	</head>
 
-	<body>
-		<div id="info">
-			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> - FBXLoader<br />
-			Character and animation from <a href="https://www.mixamo.com/" target="_blank" rel="noopener">Mixamo</a>
-		</div>
+<head>
+	<title>three.js webgl - FBX loader</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<link type="text/css" rel="stylesheet" href="main.css">
+</head>
 
-		<!-- Import maps polyfill -->
-		<!-- Remove this when import maps will be widely supported -->
-		<script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+<body>
+	<style>
+		#loader {
+			border: 5px solid #f3f3f3;
+			/* Light grey */
+			border-top: 5px solid #3d3d3d;
+			/* Grey */
+			border-radius: 50%;
+			width: 40px;
+			height: 40px;
+			animation: spin 1s linear infinite;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			z-index: 2;
+		}
 
-		<script type="importmap">
+		@keyframes spin {
+			0% {
+				transform: rotate(0deg);
+			}
+
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+	</style>
+	<div id="info">
+		<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> - FBXLoader<br />
+		Character and animation from <a href="https://www.mixamo.com/" target="_blank" rel="noopener">Mixamo</a>
+	</div>
+	<div id="loader"></div>
+
+	<!-- Import maps polyfill -->
+	<!-- Remove this when import maps will be widely supported -->
+	<script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+
+	<script type="importmap">
 			{
 				"imports": {
 					"three": "./three.module.js",
@@ -26,171 +54,180 @@
 			}
 		</script>
 
-		<script type="module">
+	<script type="module">
 
-const premios = [
-            { nomeDoPremio: "Cagar em mais países", ganhador: "Loren" },
-            { nomeDoPremio: "Rayssa Leal (SK8)", ganhador: "Dev" },
-            { nomeDoPremio: "Melhor cochilo no sofá do beani", ganhador: "Carol" },
-            { nomeDoPremio: "Atropelador de criança", ganhador: "Dev" },
-            { nomeDoPremio: "Bodybuilder", ganhador: "fefa" },
-            { nomeDoPremio: "Contador de Histórias", ganhador: "Loren" },
-            { nomeDoPremio: "Vegano", ganhador: "Fefa" },
-            { nomeDoPremio: "Melhor Beani", ganhador: "Beani" },
-            { nomeDoPremio: "Venci o capitalismo", ganhador: "PBeani" },
-            { nomeDoPremio: "Aniversario temático", ganhador: "Alex" },
-            { nomeDoPremio: "defensora da democracia", ganhador: "jaque" },
-            { nomeDoPremio: "Entregador de paçoca", ganhador: "Dev" },
-            { nomeDoPremio: "Mãenicure", ganhador: "Elisangela" },
-            { nomeDoPremio: "Discurso motivacional no insta", ganhador: "Bere" },
-            { nomeDoPremio: "Pau pra toda obra", ganhador: "Alex" },
-            { nomeDoPremio: "Casa de gatos", ganhador: "Fefa" },
-            { nomeDoPremio: "Kpop", ganhador: "Bere" },
-            { nomeDoPremio: "Lactose", ganhador: "Alan" },
-            { nomeDoPremio: "Casamento duradouro", ganhador: "oPedro" },
-            { nomeDoPremio: "Cosplay", ganhador: "Beatriz" },
-            { nomeDoPremio: "Sombrancelha", ganhador: "Pedro" },
-            { nomeDoPremio: "Casamento do Ano", ganhador: "Beani" },
-            { nomeDoPremio: "Melhor nome gringo", ganhador: "Dev (Italian John)" },
-            { nomeDoPremio: "Já o que", ganhador: "Jaque" },
-            { nomeDoPremio: "Bora", ganhador: "Alex" },
-            { nomeDoPremio: "1 2 3 e já", ganhador: "Dev" },    
-        ]
+		const premios = [
+			{ nomeDoPremio: "Cagar em mais países", ganhador: "Loren" },
+			{ nomeDoPremio: "Rayssa Leal (SK8)", ganhador: "Dev" },
+			{ nomeDoPremio: "Melhor cochilo no sofá do beani", ganhador: "Carol" },
+			{ nomeDoPremio: "Atropelador de criança", ganhador: "Dev" },
+			{ nomeDoPremio: "Bodybuilder", ganhador: "fefa" },
+			{ nomeDoPremio: "Contador de Histórias", ganhador: "Loren" },
+			{ nomeDoPremio: "Vegano", ganhador: "Fefa" },
+			{ nomeDoPremio: "Melhor Beani", ganhador: "Beani" },
+			{ nomeDoPremio: "Venci o capitalismo", ganhador: "PBeani" },
+			{ nomeDoPremio: "Aniversario temático", ganhador: "Alex" },
+			{ nomeDoPremio: "defensora da democracia", ganhador: "jaque" },
+			{ nomeDoPremio: "Entregador de paçoca", ganhador: "Dev" },
+			{ nomeDoPremio: "Mãenicure", ganhador: "Elisangela" },
+			{ nomeDoPremio: "Discurso motivacional no insta", ganhador: "Bere" },
+			{ nomeDoPremio: "Pau pra toda obra", ganhador: "Alex" },
+			{ nomeDoPremio: "Casa de gatos", ganhador: "Fefa" },
+			{ nomeDoPremio: "Kpop", ganhador: "Bere" },
+			{ nomeDoPremio: "Lactose", ganhador: "Alan" },
+			{ nomeDoPremio: "Casamento duradouro", ganhador: "oPedro" },
+			{ nomeDoPremio: "Cosplay", ganhador: "Beatriz" },
+			{ nomeDoPremio: "Sombrancelha", ganhador: "Pedro" },
+			{ nomeDoPremio: "Casamento do Ano", ganhador: "Beani" },
+			{ nomeDoPremio: "Melhor nome gringo", ganhador: "Dev (Italian John)" },
+			{ nomeDoPremio: "Já o que", ganhador: "Jaque" },
+			{ nomeDoPremio: "Bora", ganhador: "Alex" },
+			{ nomeDoPremio: "1 2 3 e já", ganhador: "Dev" },
+		]
 
-			const urlParams = new URLSearchParams(window.location.search);
-			const premio = urlParams.get('premio')
+		const urlParams = new URLSearchParams(window.location.search);
+		const premio = urlParams.get('premio')
 
-			document.getElementById("info").innerHTML = `
+
+
+		import * as THREE from 'three';
+
+
+
+		import { OrbitControls } from './OrbitControls.js';
+		import { FBXLoader } from './FBXLoader.js';
+		import Stats from './stats.module.js';
+
+		let camera, scene, renderer, stats;
+
+		const clock = new THREE.Clock();
+
+		let mixer;
+
+		init();
+		animate();
+
+		function init() {
+			const manager = new THREE.LoadingManager();
+			manager.onProgress = function (item, loaded, total) {
+				document.getElementById("info").innerHTML  = (loaded / total * 100) + '%';
+			};
+
+			manager.onLoad = function (item, loaded, total) {
+				document.getElementById("info").innerHTML = `
 			
-			<p>${premios[premio-1].nomeDoPremio}</p>
-			<p>${premios[premio-1].ganhador}</p>
+				<p>${premios[premio - 1].nomeDoPremio}</p>
+				<p>${premios[premio - 1].ganhador}</p>
 		
 			`;
+			};
 
-			import * as THREE from 'three';
+			const container = document.createElement('div');
+			document.body.appendChild(container);
 
-			
+			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
+			camera.position.set(100, 200, 300);
 
-			import { OrbitControls } from './OrbitControls.js';
-			import { FBXLoader } from './FBXLoader.js';
-            import Stats from './stats.module.js';
+			scene = new THREE.Scene();
+			scene.background = new THREE.Color(0x000000);
 
-			let camera, scene, renderer, stats;
 
-			const clock = new THREE.Clock();
+			const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 5);
+			hemiLight.position.set(0, 200, 0);
+			scene.add(hemiLight);
 
-			let mixer;
+			const dirLight = new THREE.DirectionalLight(0xffffff, 5);
+			dirLight.position.set(0, 200, 100);
+			dirLight.castShadow = true;
+			dirLight.shadow.camera.top = 180;
+			dirLight.shadow.camera.bottom = - 100;
+			dirLight.shadow.camera.left = - 120;
+			dirLight.shadow.camera.right = 120;
+			scene.add(dirLight);
 
-			init();
-			animate();
+			// scene.add( new THREE.CameraHelper( dirLight.shadow.camera ) );
 
-			function init() {
+			// ground
+			const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false }));
+			mesh.rotation.x = - Math.PI / 2;
+			mesh.receiveShadow = true;
+			scene.add(mesh);
 
-				const container = document.createElement( 'div' );
-				document.body.appendChild( container );
+			const grid = new THREE.GridHelper(2000, 20, 0x000000, 0x000000);
+			grid.material.opacity = 0.2;
+			grid.material.transparent = true;
+			scene.add(grid);
 
-				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
-				camera.position.set( 100, 200, 300 );
+			// model
+			const loader = new FBXLoader();
+			loader.load("https://raw.githubusercontent.com/alex3aguiar/norvana/modelos/modelos/" + premio + '.fbx', function (object) {
 
-				scene = new THREE.Scene();
-				scene.background = new THREE.Color( 0x000000 );
-				
+				mixer = new THREE.AnimationMixer(object);
 
-				const hemiLight = new THREE.HemisphereLight( 0xffffff, 0x444444, 5 );
-				hemiLight.position.set( 0, 200, 0 );
-				scene.add( hemiLight );
+				// const action = mixer.clipAction( object.animations[ 0 ] );
+				// action.play();
 
-				const dirLight = new THREE.DirectionalLight( 0xffffff, 5 );
-				dirLight.position.set( 0, 200, 100 );
-				dirLight.castShadow = true;
-				dirLight.shadow.camera.top = 180;
-				dirLight.shadow.camera.bottom = - 100;
-				dirLight.shadow.camera.left = - 120;
-				dirLight.shadow.camera.right = 120;
-				scene.add( dirLight );
+				object.traverse(function (child) {
 
-				// scene.add( new THREE.CameraHelper( dirLight.shadow.camera ) );
+					if (child.isMesh) {
 
-				// ground
-				const mesh = new THREE.Mesh( new THREE.PlaneGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
-				mesh.rotation.x = - Math.PI / 2;
-				mesh.receiveShadow = true;
-				scene.add( mesh );
+						child.castShadow = true;
+						child.receiveShadow = true;
 
-				const grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
-				grid.material.opacity = 0.2;
-				grid.material.transparent = true;
-				scene.add( grid );
+					}
 
-				// model
-				const loader = new FBXLoader();
-				loader.load( "https://raw.githubusercontent.com/alex3aguiar/norvana/modelos/modelos/"+ premio+'.fbx', function ( object ) {
-                   
-					mixer = new THREE.AnimationMixer( object );
+				});
 
-					// const action = mixer.clipAction( object.animations[ 0 ] );
-					// action.play();
+				scene.add(object);
 
-					object.traverse( function ( child ) {
+			});
 
-						if ( child.isMesh ) {
+			renderer = new THREE.WebGLRenderer({ antialias: true });
+			renderer.setPixelRatio(window.devicePixelRatio);
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			renderer.useLegacyLights = false;
+			renderer.shadowMap.enabled = true;
+			container.appendChild(renderer.domElement);
 
-							child.castShadow = true;
-							child.receiveShadow = true;
+			const controls = new OrbitControls(camera, renderer.domElement);
+			controls.target.set(0, 100, 0);
+			controls.update();
 
-						}
+			window.addEventListener('resize', onWindowResize);
 
-					} );
-                    
-					scene.add( object );
+			// stats
+			stats = new Stats();
+			container.appendChild(stats.dom);
 
-				} );
+		}
 
-				renderer = new THREE.WebGLRenderer( { antialias: true } );
-				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				renderer.useLegacyLights = false;
-				renderer.shadowMap.enabled = true;
-				container.appendChild( renderer.domElement );
+		function onWindowResize() {
 
-				const controls = new OrbitControls( camera, renderer.domElement );
-				controls.target.set( 0, 100, 0 );
-				controls.update();
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
 
-				window.addEventListener( 'resize', onWindowResize );
+			renderer.setSize(window.innerWidth, window.innerHeight);
 
-				// stats
-				stats = new Stats();
-				container.appendChild( stats.dom );
+		}
 
-			}
+		//
 
-			function onWindowResize() {
+		function animate() {
 
-				camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
+			requestAnimationFrame(animate);
 
-				renderer.setSize( window.innerWidth, window.innerHeight );
+			const delta = clock.getDelta();
 
-			}
+			if (mixer) mixer.update(delta);
 
-			//
+			renderer.render(scene, camera);
 
-			function animate() {
+			stats.update();
 
-				requestAnimationFrame( animate );
+		}
 
-				const delta = clock.getDelta();
+	</script>
 
-				if ( mixer ) mixer.update( delta );
+</body>
 
-				renderer.render( scene, camera );
-
-				stats.update();
-
-			}
-
-		</script>
-
-	</body>
 </html>
